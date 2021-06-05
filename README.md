@@ -1,7 +1,23 @@
 # Programming Kotlin
 
-My implementation based on the book by Venkat Subramaniam.
+My implementation based on the [book](https://www.oreilly.com/library/view/programming-kotlin/9781680507287/) by Venkat Subramaniam.
 
+- [Initial details](#initial-details)
+- [Implementation](#implementation)
+  - [Chapter 1](#chapter-1)
+    - [Installing and compiling the code](#installing-and-compiling-the-code)
+    - [REPL](#repl)
+    - [Scripts](#scripts)
+  - [Chapter 2](#chapter-2)
+    - [Less typing](#less-typing)
+    - [Warnings](#warnings)
+    - [Immutability](#immutability)
+    - [Equality checks](#equality-checks)
+    - [Strings](#strings)
+      - [String templates](#string-templates)
+      - [Raw Strings](#raw-strings)
+      - [Multiline Strings](#multiline-strings)
+  
 ## Initial details
 
 I am using GitPod for current project. More details on how to use Kotlin in GitPod can be found [here](https://www.gitpod.io/docs/languages/kotlin/).
@@ -46,7 +62,7 @@ kotlin -classpath Hello.jar HelloKt
 
 For interactive sessions type `kotlinc-jvm`. To terminate the REPL session use `ctrl+d` / `ctrl+c` or type `:quit`.
 
-```kotlin
+```
 $ kotlinc-jvm
 Picked up JAVA_TOOL_OPTIONS: -Xmx1879m
 Welcome to Kotlin version 1.5.0 (JRE 11.0.10+9-LTS)
@@ -61,4 +77,84 @@ Hello, World!
 
 Run a script (the file has `.kts` extension): `kotlinc-jvm -script chapter1/listktsfiles.kts`.
 
-On Unix-like systems you can add Bash shebang to the script file `#!/usr/bin/env kotlinc-jvm -script`, make the scrip executable (`chmd +x script.kts`) and then run it (`./script.kts`) 
+On Unix-like systems you can add Bash shebang to the script file `#!/usr/bin/env kotlinc-jvm -script`, make the scrip executable (`chmd +x script.kts`) and then run it (`./script.kts`)
+
+### Chapter 2
+***
+***
+
+Essential Kotlin elements compared to Java code.
+
+---
+#### Less typing
+
+Semicolons, variable type specifications, classes, functions and try-catches are optional
+
+---
+#### Warnings
+
+Treat warnings as errors with the `-Werror` option: 
+```bash
+kotlinc-jvm -Werror -script script.kts
+```
+
+---
+#### Immutability
+
+Prefer immutability (with `val`) instead of changing variables (with `var`).
+```kotlin
+val pi: Double = 3.14
+```
+
+---
+#### Equality checks
+
+Kotlin has 2 types of equality checks:
+- structural equality: `==` (same as `equals()` in Java)
+  
+(take into consideration that Kotlin handles nulls safety)
+- referential equality: `===` (same as `==` in Java))
+
+---
+#### Strings
+
+##### String templates
+
+Example of `$` use:
+```
+$variable
+${expression}
+$${complex - expression} // first $ is a literal
+US$ // used as literal - US$
+\$US // escape it to use it as a literal - $US
+```
+
+##### Raw Strings
+
+Use escaped Strings for small, simple, plain vanilla Strings:
+```kotlin
+val escaped = "The kid asked, \"How's it going, $name?\""
+val raw = """The kid asked, "How's it going, $name?""""
+```
+
+##### Multiline Strings
+```kotlin
+val multilineWithIndentation = """The kid asked,
+    "How's it going, $name?""""
+println(multilineWithIndentation)
+//The kid asked, 
+//  "How's it going, Maria?"
+
+val multilineWithoutIndentation = """The kid asked,
+    |"How's it going, $name?"""".trimMargin()
+println(multilineWithoutIndentation)
+//The kid asked, 
+//"How's it going, Maria?"
+
+val multilineWithoutIndentation2 = """The kid asked,
+    ~"How's it going, $name?"""".trimMargin("~")
+println(multilineWithoutIndentation2)
+//The kid asked, 
+//"How's it going, Maria?"
+```
+
