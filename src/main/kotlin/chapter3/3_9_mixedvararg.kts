@@ -1,3 +1,5 @@
+package chapter3
+
 fun greetMany(message: String, vararg names: String) {
     println("$message ${names.joinToString(", ")}")
 }

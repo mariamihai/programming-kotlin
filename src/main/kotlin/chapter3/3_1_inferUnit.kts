@@ -1,3 +1,5 @@
+package chapter3
+
 // Kotlin will infer the type as Unit if the function
 // isn’t returning anything
 fun sayHello() = println("Well, hello")

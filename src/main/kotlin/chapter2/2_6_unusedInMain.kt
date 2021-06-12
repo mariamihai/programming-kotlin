@@ -1,3 +1,5 @@
+package chapter2
+
 // Compiling with kotlinc-jvm, you get the next warning from kotlinc:
 // warning: parameter 'n' is never used
 

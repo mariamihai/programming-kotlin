@@ -1,3 +1,5 @@
+package chapter3
+
 fun max(numbers: IntArray): Int {
     var large = Int.MIN_VALUE
 

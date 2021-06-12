@@ -1,3 +1,5 @@
+package chapter1
+
 // kotlinc-jvm -script listktsfiles.kts
 
 java.io.File(".")

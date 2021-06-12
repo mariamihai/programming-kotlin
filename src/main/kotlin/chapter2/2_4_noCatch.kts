@@ -1,3 +1,5 @@
+package chapter2
+
 // Kotlin doesn't force you to catch any exception
 // (The program terminates of course if the exception is unhandled)
 

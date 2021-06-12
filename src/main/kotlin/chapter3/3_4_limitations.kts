@@ -1,3 +1,5 @@
+package chapter3
+
 fun f1() = 2
 fun f2() = { 2 }
 fun f3(factor: Int) = { n: Int -> n * factor }

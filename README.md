@@ -17,6 +17,15 @@ My implementation based on the [book](https://www.oreilly.com/library/view/progr
       - [String templates](#string-templates)
       - [Raw Strings](#raw-strings)
       - [Multiline Strings](#multiline-strings)
+  - [Chapter 3](#chapter-3)
+    - [Types](#types)
+    - [Parameters](#parameters)
+    - [vararg, spread and destructuring](#vararg-spread-and-destructuring)
+  - [Chapter 4](#chapter-4)
+    - [Ranges](#ranges)
+    - [Iterations](#iterations)
+    - [Iterations over lists and arrays](#iterations-over-lists-and-arrays)
+    - [Using `when`](#using-when)
   
 ## Initial details
 
@@ -237,3 +246,112 @@ val (_, _, last) = getFullName()
 val (_, middle) = getFullName()
 ```
 
+### Chapter 4
+***
+***
+
+External iteration and argument matching utilizing ranges and `when`.
+
+---
+#### Ranges
+
+```kotlin
+val oneToFive: IntRange = 1..5
+val aToE: CharRange = 'a'..'e'
+val seekHelp: ClosedRange<String> = "hell".."help"
+```
+
+---
+#### Iterations
+
+Forward and reverse iterations are easier to implement in Kotlin, but you can't iterate like this over 
+`ClosedRange<T>` constants like `seekHelp`.
+
+```kotlin
+for (i in 1..5) { print("$i, ") }
+for (ch in 'a'..'e') { print(ch) }
+for (i in 5 downTo 1) { print("$i, ") }
+```
+
+Can skip last value.
+
+```kotlin
+for (i in 1 until 5) { print("$i, ") } // [1, 5)
+```
+
+And have a specific step.
+
+```kotlin
+for (i in 1 until 10 step 3) { print("$i, ") }
+for (i in 10 downTo 0 step 3) { print("$i, ") }
+```
+
+This is a preferred way of iteration than Java's `i = i + step` as it
+ensures immutability.
+
+---
+#### Iterations over lists and arrays
+
+```kotlin
+val array = arrayOf(1, 2, 3)
+for (a in array) { print("$a, ") }
+
+val list = listOf(1, 2, 3)
+for (l in list) { print("$l, ") }
+```
+
+Can utilize the index and get both the index and the value with destructuring:
+
+```kotlin
+val names = listOf("Tom", "Jerry", "Spike")
+for (index in names.indices) {
+    println("Position of ${names.get(index)} is $index")
+}
+
+for ((index, name) in names.withIndex()) {
+    println("Position of $name is $index")
+}
+```
+
+---
+#### Using `when`
+
+`When` can be used both as a statement or as an expression.
+
+Using it as an expression:
+
+```kotlin
+fun bigNmberCheck(number: Int) = when {
+    number > 1000 -> "It's a huge number"
+    number > 100 -> "It's a big number"
+    number > 0 -> "It's a positive number"
+    else -> "it's something"
+}
+```
+
+Using `when` as a statement without the `else` branch:
+
+```kotlin
+fun printWhatToDo(dayOfWeek: Any) {
+    when (dayOfWeek) {
+        "Saturday", "Sunday" -> println("Relax")
+        in listOf("Monday", "Tuesday", "Wednesday", "Thursday") ->
+            println("Work hard")
+        in 2..4 -> println("Work hard")
+        "Friday" -> println("Party")
+        is String -> println("What?")
+    }
+}
+```
+
+Can use variables with limited scope:
+
+```kotlin
+fun systemInfoWithLimitedScope(): String {
+    return when (val numberOfCores = Runtime.getRuntime().availableProcessors()) {
+        1 -> "1 core, packing this one to the museum"
+        in 2..16 -> "You have $numberOfCores cores"
+        else -> "$numberOfCores cores!, I want your machine"
+    }
+}
+```

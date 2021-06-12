@@ -1,3 +1,5 @@
+package chapter2
+
 // $variable; ${expression}; $${} - first $ is a literal;
 // $ - used as literal; \$ - escape it to use it as a literal
 
