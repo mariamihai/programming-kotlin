@@ -1,3 +1,5 @@
+package chapter2
+
 val name = "Maria"
 val escaped = "The kid asked, \"How's it going, $name?\""
 

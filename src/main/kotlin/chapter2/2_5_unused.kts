@@ -1,3 +1,5 @@
+package chapter2
+
 // RUn with -Werror option to fail the build or execution (treat warnings
 // as errors): kotlinc-jvm -Werror -script 2_5_unused.kts
 

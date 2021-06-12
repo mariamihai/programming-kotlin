@@ -1,3 +1,5 @@
+package chapter2
+
 // Kotlin has 2 types of equality checks:
 // == (same as equals() in Java) = structural equality (take into consideration that
 // Kotlin handles nulls safety)

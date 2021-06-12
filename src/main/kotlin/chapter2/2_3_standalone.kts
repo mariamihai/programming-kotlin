@@ -1,3 +1,5 @@
+package chapter2
+
 import java.lang.RuntimeException
 
 // When the code is compiled or executed as script, Kotlin

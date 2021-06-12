@@ -1,3 +1,5 @@
+package chapter1
+
 // kotlinc-jvm hello.kt -d hello.jar
 // java -classpath hello.jar HelloKt
 

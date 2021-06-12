@@ -1,3 +1,5 @@
+package chapter3
+
 // the destructuring in Kotlin is based on the position of properties instead of the names of the properties
 fun getFullName() = Triple("John", "Quincy", "Adams")
 

@@ -1,3 +1,5 @@
+package chapter2
+
 // The type of variable is verified and type sanity is guaranteed
 // at compile time in Kotlin. Variable type specification is optional.
 

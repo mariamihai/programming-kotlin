@@ -1,3 +1,5 @@
+package chapter2
+
 var factor = 2
 
 // The variable factor in doubleIt binds to the variable outside its

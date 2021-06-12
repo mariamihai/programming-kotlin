@@ -1,3 +1,5 @@
+package chapter2
+
 val greet = "hello"
 
 println(greet)
