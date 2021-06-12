@@ -17,6 +17,10 @@ My implementation based on the [book](https://www.oreilly.com/library/view/progr
       - [String templates](#string-templates)
       - [Raw Strings](#raw-strings)
       - [Multiline Strings](#multiline-strings)
+  - [Chapter 3](#chapter-3)
+    - [Types](#types)
+    - [Parameters](#parameters)
+    - [vararg, spread and destructuring](#vararg-spread-and-destructuring)
   
 ## Initial details
 
