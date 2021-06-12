@@ -7,5 +7,4 @@ fun max(numbers: IntArray): Int {
     return large
 }
 
-println(max(intArrayOf(1, 5, 2, 12, 7, 3)))
-// 12
+println(max(intArrayOf(1, 5, 2, 12, 7, 3))) // 12
