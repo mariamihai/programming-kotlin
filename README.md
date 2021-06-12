@@ -138,6 +138,7 @@ val raw = """The kid asked, "How's it going, $name?""""
 ```
 
 ##### Multiline Strings
+
 ```kotlin
 val multilineWithIndentation = """The kid asked,
     "How's it going, $name?""""
@@ -156,5 +157,83 @@ val multilineWithoutIndentation2 = """The kid asked,
 println(multilineWithoutIndentation2)
 //The kid asked, 
 //"How's it going, Maria?"
+```
+
+### Chapter 3
+***
+***
+
+Working with functions in Kotlin.
+
+---
+#### Types
+
+The parameter types need to be specified but the return type can be inferred.
+
+The equivalent of Java's `void` is `Unit`.
+
+```kotlin
+fun sayHelloInferredType() = println("Well, hello")
+
+fun sayHelloSpecifiedType(): Unit = println("Well, hello")
+```
+
+Single line functions can omit braces.
+
+```kotlin
+fun sayHelloOmittedBraces() = println("Well, hello")
+
+fun sayHelloOmittedBracesWithType(): Unit {
+  println("Well, hello")
+}
+
+fun sayHelloOmittedBracesWithoutType() {
+  println("Well, hello")
+}
+```
+
+---
+#### Parameters
+
+Default or named parameters can be used.
+
+```kotlin
+fun greet(name : String, message: String = "Hello"): String {
+    return "$message, $name"
+}
+
+println(greet("Maria"))
+println(greet(name = "Maria"))
+println(greet(message = "Hey", name = "Maria"))
+```
+
+---
+#### vararg, spread and destructuring
+
+Examples:
+
+```kotlin
+fun greetMany(message: String, vararg names: String) {
+    println("$message ${names.joinToString(", ")}")
+}
+greetMany("Hello", "Tom", "Jerry", "Spike")
+```
+
+Use `*` for spreading the values.
+
+```kotlin
+println(max(*values))
+```
+
+Can extract values from an object. The destructuring in Kotlin is based on the position of properties instead 
+of the names of the properties.
+
+```kotlin
+fun getFullName() = Triple("John", "Quincy", "Adams")
+
+val (first, middle, last) = getFullName()
+val (first, _, last) = getFullName()
+val (_, _, last) = getFullName()
+val (_, middle) = getFullName()
 ```
 
