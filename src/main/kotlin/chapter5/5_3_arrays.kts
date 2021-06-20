@@ -11,4 +11,9 @@ val numbers = arrayOf(1, 2, 3)
 println(numbers.size) // 3
 println(numbers.average()) // 2.0
 
+val numbers1 = intArrayOf(1, 2, 3)
+println(numbers1::class) //class kotlin.IntArray
+println(numbers1.javaClass) //class [I
+
+
 println(Array(5) {i -> (i+1) * (i+1)}.sum()) // 55

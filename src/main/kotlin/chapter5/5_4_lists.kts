@@ -6,6 +6,8 @@ package chapter5
 
 val fruits: List<String> = listOf("Apple", "Banana", "Grape")
 println(fruits) // [Apple, Banana, Grape]
+println(fruits::class)
+println(fruits.javaClass)
 
 // Get a value
 println("${fruits[0]} = ${fruits.get(0)}") // Apple = Apple
