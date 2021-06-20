@@ -26,6 +26,13 @@ My implementation based on the [book](https://www.oreilly.com/library/view/progr
     - [Iterations](#iterations)
     - [Iterations over lists and arrays](#iterations-over-lists-and-arrays)
     - [Using `when`](#using-when)
+  - [Chapter 5](#chapter-5)
+    - [Existing collections](#existing-collections)
+    - [Pair and Triple](#pair-and-triple)
+    - [Arrays of objects and primitives](#arrays-of-objects-and-primitives)
+    - [Lists](#lists)
+    - [Sets](#sets)
+    - [Maps](#maps)
   
 ## Initial details
 
