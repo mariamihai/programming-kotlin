@@ -355,3 +355,142 @@ fun systemInfoWithLimitedScope(): String {
     }
 }
 ```
+
+### Chapter 5
+***
+***
+
+Using collections. Kotlin prefers the immutable favor, and these collections serve 
+as views to Java collections. Mutable collections are declared and not implied. They 
+are preferred in simple, single threaded apps.
+
+---
+#### Existing collections
+* Pair - tuple of two values <br>
+* Triple - a tuple of three values <br>
+* Array - indexed fixed-sized collection of objects and primitives <br>
+* List - ordered collection of objects <br>
+* Set - unordered collection of objects <br>
+* Map - associative dictionary or map of keys and values <br>`
+
+---
+#### Pair and Triple
+
+Examples of `Pairs` of `Strings`:
+```kotlin
+println(Pair("Tom", "Jerry")) // (Tom, Jerry)
+println(mapOf("Tom" to "Cat", "Jerry" to "Mouse")) // {Tom=Cat, Jerry=Mouse}
+```
+
+To obtain the values from the `Pairs` we can use the `first` and `second` properties:
+```kotlin
+for (character in animation) {
+    println("Name: ${character.first}: Animal type: ${character.second}")
+}
+
+```
+
+---
+#### Arrays of objects and primitives
+
+```kotlin
+val people = arrayOf("Person 1", "Person 2", "Person 3")
+println(people::class) // class kotlin.Array - the type in Kotlin - Array<T>
+println(people.javaClass) // class [Ljava.lang.String; - the underlying type
+println("${people[0]} and ${people[1]}") //Person 1 and Person 2
+
+```
+
+There are specialized functions based on the type needed:
+```kotlin
+val numbers = intArrayOf(1, 2, 3)
+println(numbers::class) // class kotlin.IntArray
+println(numbers.javaClass) // class [I
+```
+
+---
+#### Lists
+
+Immutability is implicit in `listOf()`. To declare a mutable list you 
+need to specify it - `mutableListOf()`
+
+```kotlin
+val fruits: List<String> = listOf("Apple", "Banana", "Grape")
+println(fruits) // [Apple, Banana, Grape]
+println(fruits::class) // class java.util.Arrays$ArrayList
+println(fruits.javaClass) // class java.util.Arrays$ArrayList
+```
+
+Accessing a particular element with:
+```kotlin
+println("first's ${fruits[0]}, that's ${fruits.get(0)}")
+```
+
+Check if an element is present:
+```kotlin
+println(fruits.contains("Apple")) // true
+println("Apple" in fruits) // true
+```
+
+Use the `+` and `-` operators to create new lists:
+```kotlin
+val withOrange = fruits + "Orange"
+
+println(fruits) //[Apple, Banana, Grape]
+println(withOrange) //[Apple, Banana, Grape, Orange]
+
+val noBanana = fruits - "Banana"
+println(noBanana) //[Apple, Grape]
+```
+
+Prefer using `listOf()` instead of `mutableListOf()` or `arrayListOf()`.
+
+---
+#### Sets
+
+There are both immutable and mutable versions - `setOf()` and `mutableSetOf()`. 
+For specific implementations use `hashSetOf()`, `linkedSetOf()` or `sortedSetOf()`.
+```kotlin
+val fruits: Set<String> = setOf("Apple", "Banana", "Apple")
+println(fruits) //[Apple, Banana]
+println(fruits::class) //class java.util.LinkedHashSet
+println(fruits.javaClass) //class java.util.LinkedHashSet
+```
+
+---
+#### Maps
+Immutable and mutable versions available - `mapOf()`, `mutableMapOf()`. For 
+specific implementations use - `hashMapOf()`, `linkedMapOf()` or `sortedMapOf()`.
+```kotlin
+val sites = mapOf("pragprog" to "https://www.pragprog.com",
+                  "agiledeveloper" to "https://agiledeveloper.com")
+println(sites.size) // 2
+
+println(sites.containsKey("agiledeveloper")) // true
+println(sites.containsValue("http://www.example.com")) // false
+println(sites.contains("agiledeveloper")) // true
+println("agiledeveloper" in sites) // true
+```
+
+To obtain one of the elements:
+```kotlin
+val pragProgSite: String? = sites.get("pragprog")
+val pragProgSite2: String? = sites["pragprog"]
+val agiledeveloper =
+sites.getOrDefault("agiledeveloper", "http://www.example.com")
+```
+
+Create new maps using the `+` and `-` operators.
+
+Iteration over the elements of the map:
+```kotlin
+for (entry in sites) {
+    println("${entry.key} --- ${entry.value}")
+}
+
+// or
+
+for ((key, value) in sites) {
+  println("$key --- $value")
+}
+```
