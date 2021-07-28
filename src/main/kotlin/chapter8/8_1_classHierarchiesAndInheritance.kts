@@ -1,3 +1,5 @@
+package chapter8
+
 // Kotlin promotes design by contract, where interfaces serve as
 // specifications and classes as implementors of those contracts.
 // You can also reuse implementations, in addition to specifications,

@@ -1,3 +1,5 @@
+package chapter8
+
 // Sealed classes are open for extension by other classes defined in
 // the same file.
 

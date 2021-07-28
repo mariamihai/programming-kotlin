@@ -1,3 +1,5 @@
+package chapter8
+
 // Kotlin nested classes can't access the private members of the
 // nesting outer class.
 // If marked with the inner keyword, the restriction goes aw

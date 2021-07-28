@@ -1,3 +1,5 @@
+package chapter8
+
 // abstract keyword has to be set for abstract methods or classes
 
 abstract class Musician(val name: String, val activeFrom: Int) {

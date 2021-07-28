@@ -1,3 +1,5 @@
+package chapter8
+
 // Kotlin classes are final by default. Need to specify open to
 // be able to inherit from them.
 

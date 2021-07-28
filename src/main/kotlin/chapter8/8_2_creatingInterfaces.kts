@@ -1,3 +1,5 @@
+package chapter8
+
 interface Remote {
     fun up()
     fun down()
