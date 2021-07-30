@@ -1,0 +1,70 @@
+Joint Compilation
+
+TL;DR:
+ - run the Kotlin compiler first and then the Java compiler
+ - provide both Kotlin and Java source files to the Kotlin compiler
+
+
+Kotlin file - Constant class
+intermixing/jointcompilation/src/main/kotlin/com/agiledeveloper/joint/Constants.kt
+
+package com.agiledeveloper.joint
+
+class Constants {
+    val freezingPointInF = 32.0
+}
+
+
+Java file - Util class which uses the Constant Kotlin class
+intermixing/jointcompilation/src/main/java/com/agiledeveloper/joint/Util.java
+
+package com.agiledeveloper.joint;
+
+public class Util {
+    public double f2c(double fahrenheit) {
+        return (fahrenheit - new Constants().getFreezingPointInF()) * 5 / 9.0;
+    }
+}
+
+
+Kotlin file - App object that uses the Util Java class
+@JvmStatic - the compiler will generate the method as a static method
+package com.agiledeveloper.joint
+
+import kotlin.jvm.JvmStatic
+
+object App {
+    @JvmStatic
+    fun main(@Suppress("UNUSED_PARAMETER") args: Array<String>) {
+        println("Running App...")
+        println(Util().f2c(50.0))
+        // Running App...
+        // 10.0
+    }
+}
+
+
+To compile this code, we have to first run the Kotlin compiler, but
+include both the Kotlin source files and the Java source file:
+kotlinc-jvm -d classes \
+src/main/kotlin/com/agiledeveloper/joint/*.kt \
+src/main/java/com/agiledeveloper/joint/*.java
+
+The generated class files will be put in the class directory.
+
+Compile the Util Java class, using the Java compiler:
+javac -d classes -classpath classes \
+src/main/java/com/agiledeveloper/joint/*.java
+
+The code can be run using the kotlin or the java command:
+kotlin -classpath classes com.agiledeveloper.joint.App
+
+When run using the java command, the path to the Kotlin standard
+library needs to be included:
+java -classpath classes:$KOTLIN_PATH/lib/kotlin-stdlib.jar \
+com.agiledeveloper.joint.App
+java -classpath classes;%KOTLIN_PATH%\lib\kotlin-stdlib.jar \
+com.agiledeveloper.joint.App
+
+If you’re programming with modules for Java 9 or later, then place
+your code in the modulepath instead of the classpath.

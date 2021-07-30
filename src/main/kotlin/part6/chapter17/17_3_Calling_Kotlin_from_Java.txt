@@ -1,0 +1,213 @@
+Calling Kotlin from Java
+
+Compile the Kotlin code and run the script:
+kotlinc-jvm -d classes src/main/kotlin/com/agiledeveloper/Counter.kt
+kotlinc-jvm -classpath classes -script usecounter.kts
+
+Compile the java code and run the class:
+javac -d classes -classpath classes:$KOTLIN_PATH/lib/kotlin-stdlib.jar \
+ src/main/java/com/agiledeveloper/UseCounter.java
+java -classpath classes:$KOTLIN_PATH/lib/kotlin-stdlib.jar \
+ com.agiledeveloper.UseCounter
+
+
+* Using Overloaded Operators from Java
+
+intermixing/kotlinfromjava/src/main/kotlin/com/agiledeveloper/Counter.kt
+
+package com.agiledeveloper
+
+data class Counter(val value: Int) {
+    operator fun plus(other: Counter) = Counter(value + other.value)
+}
+
+
+intermixing/kotlinfromjava/usecounter.kts
+
+import com.agiledeveloper.*
+
+val counter = Counter(1)
+println(counter + counter)
+
+
+The method-naming convention used in Kotlin for operators was chosen
+carefully to promote interoperability with Java.
+
+intermixing/kotlinfromjava/src/main/java/com/agiledeveloper/UseCounter.java
+
+package com.agiledeveloper;
+
+import kotlin.jvm.functions.Function1;
+
+public class UseCounter {
+    public static void main(String[] args) {
+        Counter counter = new Counter(1);
+        System.out.println(counter.plus(counter)); // Counter(value=2)
+    }
+}
+
+
+Kotlin will use the operator, while Java will use the corresponding
+methods.
+
+
+* Creating static Methods
+To use the methods from singletons or companion objects as static
+methods in Java, the Kotlin compiler needs to mark them as static in
+the bytecode with the JvmStatic annotation.
+
+intermixing/kotlinfromjava/src/main/kotlin/com/agiledeveloper/Counter.kt
+
+import kotlin.jvm.JvmStatic
+
+//within the Counter class...
+// ...
+
+companion object {
+    @JvmStatic
+    fun create() = Counter(0)
+}
+
+Used in Kotlin:
+intermixing/kotlinfromjava/usecounter.kts
+
+println(Counter.create())
+
+
+Used in Java:
+intermixing/kotlinfromjava/src/main/java/com/agiledeveloper/UseCounter.java
+
+//within the main method of UseCounter...
+Counter counter0 = Counter.create();
+System.out.println(counter0); //Counter(value=0)
+
+
+* Passing Lambdas
+intermixing/kotlinfromjava/src/main/kotlin/com/agiledeveloper/Counter.kt
+
+fun map(mapper: (Counter) -> Counter) = mapper(this)
+
+Calling from Kotlin and Java:
+intermixing/kotlinfromjava/usecounter.kts
+
+println(counter.map { ctr -> ctr + ctr})
+
+
+intermixing/kotlinfromjava/src/main/java/com/agiledeveloper/UseCounter.java
+
+import kotlin.,jvm.functions.Function1;
+System.out.println(counter.map(ctr => ctr.plus(ctr))); // Counter(value=2)
+
+The bytecode generated for the map() function references a functional
+interface defined in the Kotlin standard library.
+The Java compiler tries to bind the lambda expression to that interface.
+This is the reason why the Kotlin standard library needs to be included
+in the classpath during compilation.
+
+
+* Adding throws Clause
+
+intermixing/kotlinfromjava/src/main/kotlin/com/agiledeveloper/Counter.kt
+
+fun readFile(path: String) = java.io.File(path).readLines()
+
+In Kotlin, you are not forced to deal with the possible
+java.io.FileNotFoundException.
+
+intermixing/kotlinfromjava/usecounter.kts
+
+try {
+    counter.readFile("blah")
+} catch(ex: java.io.FileNotFoundException) {
+    println("File not found")
+}
+
+
+intermixing/kotlinfromjava/src/main/java/com/agiledeveloper/UseCounter.java
+
+try {
+    counter.readFile("blah");
+} catch(java.io.FileNotFoundException ex) {
+    System.out.println("File not found");
+}
+
+An error is generated: exception FileNotFoundException is never thrown
+in the body of corresponding try statement.
+
+Kotlin compiler needs to generate the appropriate throws clause:
+
+intermixing/kotlinfromjava/src/main/kotlin/com/agiledeveloper/Counter.kt
+
+@Throws(java.io.FileNotFoundException::class)
+fun readFile(path: String) = java.io.File(path).readLines()
+
+
+* Using Functions with Default Arguments
+
+intermixing/kotlinfromjava/src/main/kotlin/com/agiledeveloper/Counter.kt
+// @@JvmOverloads
+fun add(n: Int = 1) = Counter(value + n)
+
+Called from Kotlin and java:
+
+intermixing/kotlinfromjava/usecounter.kts
+
+println(counter.add(3))
+println(counter.add())
+
+
+intermixing/kotlinfromjava/src/main/java/com/agiledeveloper/UseCounter.java
+
+System.out.println(counter.add(3));
+System.out.println(counter.add());
+
+It gives the error: method add in class Counter cannot be applied to
+given types;
+@@JvmOverloads needs to be added so the Kotlin compiler generates
+multiple overloaded functions.
+
+
+* Accessing Top-Level Functions
+
+intermixing/kotlinfromjava/src/main/kotlin/com/agiledeveloper/Counter.kt
+
+//place this after the import and before the data class Counter
+fun createCounter() = Counter(0)
+
+Kotlin:
+intermixing/kotlinfromjava/usecounter.kts
+
+println(createCounter())
+
+
+Kotlin's top-level functions have to be sheltered in a class for
+the Java code to be able to use them.
+
+intermixing/kotlinfromjava/src/main/java/com/agiledeveloper/UseCounter.java
+
+System.out.println(com.agiledeveloper.CounterKt.createCounter());
+
+As the top-level function is in the file Counter.kt, the Kotlin
+compiler will place the file in a class named CounterKt. Once a
+top-level function is created, a CounterKt.class files is created
+when compiling the Counter.kt file with the Kotlin compiler command.
+
+The name of the class which holds the top-level functions of the
+package can be changed using the jvmName annotation. This annotation
+can be used to resolve function signature collisions, to change the
+names of getters or setters, etc.
+
+intermixing/kotlinfromjava/src/main/kotlin/com/agiledeveloper/Counter.kt
+
+// Needs to be before the package declaration
+// The generated file will be CounterTop.class
+@file:JvmName("CounterTop")
+package com.agiledeveloper
+
+
+* More Annotations
+
+More annotations are under kotlin.jvm package related to bytecode
+generation.
+Eg., Synchronized, JvmDefault, Volatile, Transient.
+// https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/

@@ -1,0 +1,50 @@
+Calling Java from Kotlin
+
+intermixing/javafromkotlin/src/main/java/com/agiledeveloper/JavaClass.java
+
+package com.agiledeveloper;
+
+import java.util.List;
+import static java.util.stream.Collectors.toList;
+
+public class JavaClass {
+    public int getZero() {
+        return 0;
+    }
+
+    public List<String> convertToUpper(List<String> names) {
+        return names.stream()
+        .map(String::toUpperCase)
+        .collect(toList());
+    }
+
+    public void suspend() {
+        System.out.println("suspending...");
+    }
+
+    public String when() {
+        return "Now!";
+    }
+}
+
+
+As the Kotlin code will depend on the Java code, but no Java code will
+depend on Kotlin code, the Java code can be compiled using the Java
+compiler, instead of having to run the Kotlin compiler first.
+javac -d classes src/main/java/com/agiledeveloper/*
+
+
+intermixing/javafromkotlin/sample.kts
+
+import com.agiledeveloper.JavaClass
+
+val javaObject = JavaClass()
+println(javaObject.zero) // 0
+println(javaObject.convertToUpper(listOf("Jack", "Jill"))) // [JACK, JILL]
+javaObject.suspend() // suspending...
+println(javaObject.when()) // ERROR: expecting an expression
+println(javaObject.`when`()) // Now!
+
+Run the Kotlin script:
+kotlinc-jvm -classpath classes -script sample.kts
+
